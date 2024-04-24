@@ -1,0 +1,48 @@
+import pygame
+
+class PhoneMenu:
+    def __init__(self, scene_manager):
+        self.event_handler = EventHandler(self)
+        self.open_animation = False
+        self.open_animation_rect = ( 145, 125, 15, 15 )
+        self.open_animation_target = ( 25, 24, 210, 430 )
+        
+        self.scene_manager = scene_manager
+
+        self.animation_totalframes = 13
+        self.set_animation_vel()
+        
+    def set_animation_vel(self):
+        self.animation_vel = []
+        for i, val in enumerate(self.open_animation_rect):
+            self.animation_vel.append( (self.open_animation_target[i] - val) / self.animation_totalframes )
+        
+    def sum_tuples(self, a, b):
+        result = []
+        for i, val in enumerate(a):
+            result.append(val + b[i])
+        return result
+    
+    def setup(self, asset_manager):
+        self.asset_manager = asset_manager
+    
+    def loop(self, screen):
+        phone_bg = self.asset_manager.get("phone_bg")
+        screen.blit(phone_bg, (0, 0))
+        
+        if self.open_animation :
+            pygame.draw.rect( screen, (21, 141, 201), self.open_animation_rect)
+            if self.open_animation_rect[0] >= self.open_animation_target[0]:
+                self.open_animation_rect = self.sum_tuples(self.open_animation_rect, self.animation_vel)
+            else:
+                self.scene_manager.next_scene()
+            
+        
+class EventHandler:
+    def __init__(self, scene):
+        self.scene = scene
+        
+    def handle_click(self):
+        pos = pygame.mouse.get_pos()
+        if 135 <= pos[0] <= 170 and 115 <= pos[1] <= 150:
+            self.scene.open_animation = True
