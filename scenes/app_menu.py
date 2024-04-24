@@ -25,5 +25,5 @@ class EventHandler:
         
     def handle_click(self):
         pos = pygame.mouse.get_pos()
-        if 165 <= pos[0] <= 225 and 340 <= pos[1] <= 390:
+        if 232 <= pos[0] <= 360 and 480 <= pos[1] <= 550:
             self.scene.scene_manager.next_scene()

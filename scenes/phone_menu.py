@@ -4,8 +4,8 @@ class PhoneMenu:
     def __init__(self, scene_manager):
         self.event_handler = EventHandler(self)
         self.open_animation = False
-        self.open_animation_rect = ( 145, 125, 15, 15 )
-        self.open_animation_target = ( 25, 24, 210, 430 )
+        self.open_animation_rect = ( 205, 125, 20, 20 )
+        self.open_animation_target = ( 50, 34, 296, 606 )
         
         self.scene_manager = scene_manager
 
@@ -44,5 +44,5 @@ class EventHandler:
         
     def handle_click(self):
         pos = pygame.mouse.get_pos()
-        if 135 <= pos[0] <= 170 and 115 <= pos[1] <= 150:
+        if 190 <= pos[0] <= 240 and 162 <= pos[1] <= 211:
             self.scene.open_animation = True

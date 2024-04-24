@@ -8,7 +8,9 @@ class AssetManager:
             "phone_bg": "phone-bg.png",
             "app_loading": "app-loading.png",
             "app_menu": "app-menu.png",
-            "proto_map": "proto_map.png"
+            "mask": "mask-white.png",
+            "mask-black": "mask.png",
+            "proto_map": "proto_map.jpeg"
         }
         self.images = {}
         self.dirname = os.path.dirname(__file__)

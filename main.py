@@ -3,8 +3,8 @@ import pygame
 from assets import AssetManager
 from scenes.scene_manager import SceneManager
 
-WIDTH = 255
-HEIGHT = 495
+WIDTH = 360
+HEIGHT = 698
 
 class App:
     def __init__(self, WIDTH, HEIGHT):
@@ -13,8 +13,6 @@ class App:
         self.running = False
         self.asset_manager = AssetManager()
         self.scene_manager = SceneManager(self.asset_manager)
-        
-        self.scene_manager.current_scene.setup(self.asset_manager)
     
     def run(self):
         pygame.init()
@@ -23,6 +21,7 @@ class App:
         pygame.display.set_caption('Mapa PUCV')
         
         self.asset_manager.load()
+        self.scene_manager.set_scenes()
         
         self.running = True
         while self.running:
