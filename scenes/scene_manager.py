@@ -4,7 +4,7 @@ from scenes.map_view import MapView
 
 class SceneManager:
     def __init__(self, asset_manager):
-        self.scenes = [ PhoneMenu(self), AppMenu(self), MapView(self)] 
+        self.scenes = [ PhoneMenu(self), AppMenu(self), MapView(self) ]
         self.asset_manager = asset_manager
         
         self.current_scene = self.scenes[0]
