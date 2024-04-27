@@ -2,6 +2,8 @@ import pygame
 
 class PhoneMenu:
     def __init__(self, scene_manager):
+        self.scene_name = "Phone Menu"
+        
         self.event_handler = EventHandler(self)
         self.open_animation = False
         self.open_animation_rect = ( 205, 125, 20, 20 )
@@ -30,7 +32,7 @@ class PhoneMenu:
         phone_bg = self.asset_manager.get("phone_bg")
         screen.blit(phone_bg, (0, 0))
         
-        if self.open_animation :
+        if self.open_animation:
             pygame.draw.rect( screen, (21, 141, 201), self.open_animation_rect)
             if self.open_animation_rect[0] >= self.open_animation_target[0]:
                 self.open_animation_rect = self.sum_tuples(self.open_animation_rect, self.animation_vel)
@@ -41,6 +43,10 @@ class PhoneMenu:
 class EventHandler:
     def __init__(self, scene):
         self.scene = scene
+        
+    def handle_event(self, e):
+        if e.type == pygame.MOUSEBUTTONUP:
+            self.handle_click()
         
     def handle_click(self):
         pos = pygame.mouse.get_pos()

@@ -1,4 +1,5 @@
 import pygame
+import argparse
 
 from assets import AssetManager
 from scenes.scene_manager import SceneManager
@@ -10,9 +11,14 @@ class App:
     def __init__(self, WIDTH, HEIGHT):
         self.window_size = (WIDTH, HEIGHT)
         self.FPS = 60
+        
+        parser = argparse.ArgumentParser(description='PUCV Map prototype')
+        parser.add_argument('-n', '--scene_number', type=int, nargs=1, default=0)
+        args = parser.parse_args()
+        
         self.running = False
         self.asset_manager = AssetManager()
-        self.scene_manager = SceneManager(self.asset_manager)
+        self.scene_manager = SceneManager(self.asset_manager, args.scene_number[0])
     
     def run(self):
         pygame.init()
@@ -38,15 +44,13 @@ class App:
         self.screen.blit(mockup_img, (0, 0))
         
         pygame.display.flip()
-
         self.clock.tick( self.FPS )
         
     def event_check(self):
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 self.running = False
-            elif e.type == pygame.MOUSEBUTTONUP:
-                self.scene_manager.current_scene.event_handler.handle_click()
+            self.scene_manager.current_scene.event_handler.handle_event(e)
             
 
 def main():

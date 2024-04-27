@@ -2,6 +2,8 @@ import pygame
 
 class AppMenu:
     def __init__(self, scene_manager):
+        self.scene_name = "App Menu"
+        
         self.event_handler = EventHandler(self)
         self.scene_manager = scene_manager
         self.frame_count = 0
@@ -22,6 +24,10 @@ class AppMenu:
 class EventHandler:
     def __init__(self, scene):
         self.scene = scene
+        
+    def handle_event(self, e):
+        if e.type == pygame.MOUSEBUTTONUP:
+            self.handle_click()
         
     def handle_click(self):
         pos = pygame.mouse.get_pos()
