@@ -1,13 +1,14 @@
 import pygame
 import pygame.display
+
 from scenes.messages_render import MsgRender
+from textbox import TextBox
 
 class ChatScene:
     def __init__(self, scene_manager):
         self.scene_name = "Chat"
         
         self.event_handler = EventHandler(self)
-        self.msg_render = MsgRender(self)
         self.scene_manager = scene_manager
         
         self.show_time = 15
@@ -29,6 +30,8 @@ class ChatScene:
         self.s_pos = pygame.Vector2( self.window_size[0], 0)
         
         self.font = pygame.font.SysFont("Arial", 12)
+        self.msg_render = MsgRender(self)
+        self.bar_textbox = TextBox( self.font )
         
     
     def loop(self, screen):
@@ -46,14 +49,12 @@ class ChatScene:
         pygame.draw.rect( self.surface, "gray15", (0, h - 120, w, 120  )) # BOTTOM BAR
         pygame.draw.rect( self.surface, "gray10", (w-90, h - 110, 45, 50  )) # SEND
         pygame.draw.rect( self.surface, "gray15", ( 50, 50, 40, 40  )) # EXIT
-    
-        text_box_color = "gray11" if self.text_bar_focus else "gray10"
-        pygame.draw.rect( self.surface, text_box_color, (80, h - 110, w - 180, 50  )) # TEXT AREA
         
         if not "render" in self.text_bar_msg.keys() or self.text_bar_msg["text-redered"] != self.text_bar_msg["text"]:
-            self.text_bar_msg["render"] = self.font.render( self.text_bar_msg["text"], True, "white")
+            text_box_color = "gray11" if self.text_bar_focus else "gray10"
+            self.text_bar_msg["render"] = self.bar_textbox.render( self.text_bar_msg["text"], "left", 10, w - 180, text_box_color, min_width=w-180, max_height=50 )
             self.text_bar_msg["text-redered"] = str( self.text_bar_msg["text"] )
-        self.surface.blit( self.text_bar_msg["render"], (90, h - 105) )
+        self.surface.blit( self.text_bar_msg["render"], (80, h - 110) )
         
         self.msg_render.render_mesagges(self.surface)
             

@@ -13,12 +13,12 @@ class App:
         self.FPS = 60
         
         parser = argparse.ArgumentParser(description='PUCV Map prototype')
-        parser.add_argument('-n', '--scene_number', type=int, nargs=1, default=0)
+        parser.add_argument( 'scene_number', type=int, nargs='?', default=0 )
         args = parser.parse_args()
         
         self.running = False
         self.asset_manager = AssetManager()
-        self.scene_manager = SceneManager(self.asset_manager, args.scene_number[0])
+        self.scene_manager = SceneManager(self.asset_manager, args.scene_number)
     
     def run(self):
         pygame.init()

@@ -16,6 +16,7 @@ class AssetManager:
         self.dirname = os.path.dirname(__file__)
     
     def load(self):
+        self.font = pygame.font.SysFont( "Arial", 12 )
         for name, path in self.images_paths.items():
             self.images[name] = self.load_image(path)
         

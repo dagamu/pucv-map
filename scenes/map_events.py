@@ -9,6 +9,9 @@ class EventHandler:
     def handle_event(self, e):
         if e.type == pygame.MOUSEBUTTONUP:
             self.handle_click()
+        elif e.type == pygame.MOUSEWHEEL:
+            self.scene.zoom += e.y * 0.05
+            self.scene.update_scale()
         
     def handle_click(self):
         pos = pygame.Vector2( pygame.mouse.get_pos() )
