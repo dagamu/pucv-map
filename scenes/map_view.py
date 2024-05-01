@@ -2,7 +2,7 @@ import pygame
 
 from scenes.map_events import EventHandler
 from maps.maps_manager import MapsManager
-from utils import scale_tuple, alpha_gradient
+from utils import scale_tuple, sum_tuples, alpha_gradient
 
 class MapView:
     def __init__(self, scene_manager):
@@ -110,6 +110,19 @@ class MapView:
         
         s.blit( title, (50, 20) )
         s.blit( subtitle, (50, 42) )
+        
+        icons_topleft = pygame.Vector2(50, 65)
+        icons_pos = icons_topleft.copy()
+        for icon in box["icons"]:
+            
+            icon_img = self.asset_manager.get_icon( icon, (20,20) )
+            icon_size = icon_img.get_size()
+            icon_box = pygame.Rect( icons_pos, (30, 30))
+            
+            pygame.draw.rect(s, (12, 22, 36), icon_box )
+            s.blit( icon_img, sum_tuples(icons_pos, (4,4)) )
+
+            icons_pos += pygame.Vector2(35,0)
         
         self.building_info_render = s
             

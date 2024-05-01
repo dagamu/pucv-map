@@ -2,7 +2,7 @@
 
 A prototype for a class project about developing an app feature to show college places.
 
----
+
 
 ## TODO
 
@@ -12,3 +12,7 @@ A prototype for a class project about developing an app feature to show college 
 - Real Time Simulation View
 - Map Chain
 - Floor System
+
+---
+
+- Some icons from https://feathericons.com/

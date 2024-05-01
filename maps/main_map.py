@@ -9,7 +9,8 @@ buildings = [
         },
         "points": [ (360, 385), (448, 385), (448, 428), (360, 430) ],
         "collider": [ 360, 385, 88, 43 ],
-        "info-img-offset": 250
+        "info-img-offset": 250,
+        "icons": [ "coffee", "computer-lab" ]
     }, 
     {
         "name": "GEO",
@@ -18,7 +19,8 @@ buildings = [
         },
         "points":      [ (358, 360), (400, 360), (448, 373), (448, 382), (358, 382) ],
         "collider": [ 360, 360, 90, 20 ],
-        "info-img-offset": 270
+        "info-img-offset": 270,
+        "icons": [ "computer-lab" ]
     },
     {
         "name": "ING-AU",
@@ -28,7 +30,8 @@ buildings = [
         },
         "points":   [ (220, 520), (300, 520), (285, 580), (215, 580) ],
         "collider": [ 220, 520, 80, 60 ],
-        "info-img-offset": 200
+        "info-img-offset": 200,
+        "icons": [ "coffee", "computer-lab" ]
     },
     {
         "name": "ICT",
@@ -37,7 +40,8 @@ buildings = [
         },
         "points": [ (265, 360), (320, 360), (320, 438), (265, 440) ],
         "collider": [265, 360, 55, 78 ],
-        "info-img-offset": 200
+        "info-img-offset": 200,
+        "icons": [ "coffee", "computer-lab" ]
     },
     {
         "name": "FIN",
@@ -46,7 +50,9 @@ buildings = [
         },
         "points": [ (210, 370), (240, 370), (240, 440), (210, 440) ],
         "collider": [ 210, 370, 30, 70 ],
-        "info-img-offset": 200
+        "info-img-offset": 200,
+        "icons": [ "coffee", "library", "music" ]
+        
     },
     {
         "name": "RA",
@@ -56,7 +62,8 @@ buildings = [
         },
         "points": [ (150, 360), (207, 360), (207, 440), (150, 440) ],
         "collider": [ 150, 360, 57, 80 ],
-        "info-img-offset": 200
+        "info-img-offset": 205,
+        "icons": [ "computer-lab" ]
     },
     {
         "name": "EIB",
@@ -65,7 +72,8 @@ buildings = [
         },
         "points": [ (10, 380), (67, 380), (67, 440), (10, 440) ],
         "collider": [10, 380, 57, 60],
-        "info-img-offset": 200
+        "info-img-offset": 171,
+        "icons": [ "computer-lab" ]
     }
 ]
 

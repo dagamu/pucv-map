@@ -19,12 +19,17 @@ class AssetManager:
             "ICT-photo": [ "buildings", "ICT.jpg" ],
             "ING-AU-photo": [ "buildings", "ING-AU.jpg" ],
             "RA-photo": [ "buildings", "RA.jpg" ],
+            "EIB-photo": [ "buildings", "EIB.jpg" ],
         }
         
         self.icons_paths = {
             "arrow-left": "arrow-left.svg",
             "send": "send.svg",
-            "subway": "subway.png"
+            "subway": "subway.png",
+            "coffee": "coffee.svg",
+            "computer-lab": "computer-lab.svg",
+            "library": "library.svg",
+            "music": "music.svg"
         }
         
         self.images = {}
