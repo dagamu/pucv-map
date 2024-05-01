@@ -8,7 +8,8 @@ buildings = [
             "subtitle": "Escuela de Ing. Informática - Ing. Industrial "
         },
         "points": [ (360, 385), (448, 385), (448, 428), (360, 430) ],
-        "collider": [ 360, 385, 88, 43 ]
+        "collider": [ 360, 385, 88, 43 ],
+        "info-img-offset": 250
     }, 
     {
         "name": "GEO",
@@ -16,7 +17,8 @@ buildings = [
             "long": "Instituto de Geografía"
         },
         "points":      [ (358, 360), (400, 360), (448, 373), (448, 382), (358, 382) ],
-        "collider": [ 360, 360, 90, 20 ]
+        "collider": [ 360, 360, 90, 20 ],
+        "info-img-offset": 270
     },
     {
         "name": "ING-AU",
@@ -25,7 +27,8 @@ buildings = [
             "subtitle": "Ing. Quimica - Ing. en Minas - Ing. Metalúrgica"
         },
         "points":   [ (220, 520), (300, 520), (285, 580), (215, 580) ],
-        "collider": [ 220, 520, 80, 60 ]
+        "collider": [ 220, 520, 80, 60 ],
+        "info-img-offset": 200
     },
     {
         "name": "ICT",
@@ -33,7 +36,8 @@ buildings = [
             "long": "Ingeniría en Construción y Transporte"
         },
         "points": [ (265, 360), (320, 360), (320, 438), (265, 440) ],
-        "collider": [265, 360, 55, 78 ]
+        "collider": [265, 360, 55, 78 ],
+        "info-img-offset": 200
     },
     {
         "name": "FIN",
@@ -41,7 +45,8 @@ buildings = [
             "long": "Facultad Mayor de Ingeniería"
         },
         "points": [ (210, 370), (240, 370), (240, 440), (210, 440) ],
-        "collider": [ 210, 370, 30, 70 ]
+        "collider": [ 210, 370, 30, 70 ],
+        "info-img-offset": 200
     },
     {
         "name": "RA",
@@ -50,7 +55,8 @@ buildings = [
             "subtitle": "Ing. Eléctrica - Ing. Electrónica"
         },
         "points": [ (150, 360), (207, 360), (207, 440), (150, 440) ],
-        "collider": [ 150, 360, 57, 80 ]
+        "collider": [ 150, 360, 57, 80 ],
+        "info-img-offset": 200
     },
     {
         "name": "EIB",
@@ -58,7 +64,8 @@ buildings = [
             "long": "Escuela de Ingeniería Bioquímica"
         },
         "points": [ (10, 380), (67, 380), (67, 440), (10, 440) ],
-        "collider": [10, 380, 57, 60]
+        "collider": [10, 380, 57, 60],
+        "info-img-offset": 200
     }
 ]
 
@@ -101,6 +108,13 @@ land = [ (-20, 130), ( 95, 140), (160, 140), (230, 140), (275, 130),
 
 green_areas = [ [ (-20,460), (340, 460), (640,440), (640,480), (340,485), (-20,485) ] ]
 
+icons = [
+    {
+        "name": "subway",
+        "pos": (385, 285)
+    }
+]
+
 constraints = {
     "min_zoom": 0.75,
     "max_zoom": 2,
@@ -113,5 +127,5 @@ MAIN_MAP = Map(
     boxes = buildings,
     lines = streets,
     green_areas = green_areas,
-    zoom_treshold = 1
+    icons = icons
 )

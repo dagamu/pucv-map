@@ -41,11 +41,11 @@ class MapEditor:
         self.quit_check()
         self.screen.fill( (7, 8, 12) ) 
        
-        land, buildings, streets, green_areas = (MAIN_MAP.background, MAIN_MAP.boxes, MAIN_MAP.lines, MAIN_MAP.green_areas )
+        land, buildings, streets, green_areas, icons = (MAIN_MAP.background, MAIN_MAP.boxes, MAIN_MAP.lines, MAIN_MAP.green_areas, MAIN_MAP.icons )
             
-        #self.screen.blit( self.bg_img, (0,0) )
+        self.screen.blit( self.bg_img, (0,0) )
         
-        pygame.draw.polygon( self.screen, (26, 38, 54), land )
+        #pygame.draw.polygon( self.screen, (26, 38, 54), land )
         
         for b in buildings:
             points = b["points"]
@@ -59,6 +59,10 @@ class MapEditor:
         for s in streets:
             points = s["points"]
             pygame.draw.polygon( self.screen, (68, 86, 110), points ) 
+            
+        for i in icons:
+            pos = i["pos"]
+            self.screen.blit( self.asset_manager.get_icon(i["name"], (24, 24)), pos )
         
         mouse_pos = pygame.mouse.get_pos()
         if mouse_pos != self.mouse_label["value"] or not "render" in self.mouse_label.keys():

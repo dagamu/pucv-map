@@ -2,7 +2,7 @@ import pygame
 
 from scenes.map_events import EventHandler
 from maps.maps_manager import MapsManager
-from utils import scale_tuple
+from utils import scale_tuple, alpha_gradient
 
 class MapView:
     def __init__(self, scene_manager):
@@ -43,6 +43,7 @@ class MapView:
         
         self.map_size = pygame.Vector2( self.map_render.get_width(), self.map_render.get_height())
         self.original_map_size = self.map_size.copy()
+        self.current_map.load( asset_manager )
         
         self.box_selected = False
         self.building_info_pos = pygame.Vector2( 0, self.window_size[1] )
@@ -83,24 +84,34 @@ class MapView:
             pygame.draw.rect( self.map_render, "red", box_rect, width=3)
         
         
-        
     def render_building_info(self):
-            w, h = self.window_size
-            s = pygame.Surface( (w, int(h/4)) )
-            s.fill( (20, 30, 45) )
-            
-            box = self.box_selected
-            
-            title_opt = [ box["name"], True, "white" ]
-            title = self.asset_manager.big_font.render( *title_opt )
-            
-            subtitle_opt = [ box["labels"]["long"], True, "gray" ]
-            subtitle = self.asset_manager.font.render( *subtitle_opt )
-            
-            s.blit( title, (50, 20) )
-            s.blit( subtitle, (50, 42) )
-            
-            self.building_info_render = s
+        
+        w, h = self.window_size
+        box_height = int(h/4)
+        s = pygame.Surface( (w, box_height)  )
+        s.fill( (20, 30, 45) )
+        
+        box = self.box_selected
+        
+        title_opt = [ box["name"], True, "white" ]
+        title = self.asset_manager.big_font.render( *title_opt )
+        
+        subtitle_opt = [ box["labels"]["long"], True, "gray" ]
+        subtitle = self.asset_manager.font.render( *subtitle_opt )
+        
+        img = self.asset_manager.get( f"{ box['name'] }-photo")
+        if not img is None:
+            img_w, img_h = img.get_size()
+            new_w = img_w *  box_height / img_h
+            img = pygame.transform.scale( img, (new_w, box_height) )
+            x_offset = box["info-img-offset"]
+            img = alpha_gradient(img, lambda x, y: int( (x - x_offset + 180)*1.4) )
+            s.blit( img, ( w - x_offset, 0 ) )
+        
+        s.blit( title, (50, 20) )
+        s.blit( subtitle, (50, 42) )
+        
+        self.building_info_render = s
             
     
     def render_info(self, screen):

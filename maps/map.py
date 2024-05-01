@@ -1,14 +1,21 @@
 import pygame
+from assets import AssetManager
 
 class Map:
-    def __init__( self, size, background, boxes, lines, green_areas, zoom_treshold ):
+    def __init__( self, size, background, boxes, lines, green_areas, icons ):
+        
         self.size = size
         self.background = background
         self.boxes = boxes
         self.lines = lines
         self.green_areas = green_areas
-        self.zoom_treshold = zoom_treshold
+        self.icons = icons
         
+        
+    def load(self, asset_manager):
+        self.asset_manager = asset_manager
+        for i in self.icons:
+            i["render"] = self.asset_manager.get_icon( i["name"], (24, 24) )
     
     def get_box_center( self, points ):
         x = [p[0] for p in points]
@@ -40,6 +47,10 @@ class Map:
         
         for line in self.lines:
             pygame.draw.polygon( map_render, (68, 86, 110), line["points"] ) 
+            
+        for i in self.icons:
+            if "render" in i.keys():
+                map_render.blit( i["render"], i["pos"] )
             
         return map_render
     
