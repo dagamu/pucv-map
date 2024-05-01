@@ -1,5 +1,7 @@
 import pygame
 
+from utils import scale_tuple
+
 class EventHandler:
     def __init__(self, scene):
         self.scene = scene
@@ -12,10 +14,25 @@ class EventHandler:
         elif e.type == pygame.MOUSEWHEEL:
             self.scene.zoom += e.y * 0.05
             self.scene.update_scale()
+        elif e.type == pygame.KEYUP:
+            self.handle_key_up(e)
+            
+    def handle_key_up(self, e):
+        if e.unicode == "i":
+            self.scene.show_info = not self.scene.show_info
         
     def handle_click(self):
         pos = pygame.Vector2( pygame.mouse.get_pos() )
         chat_btn_pos = pygame.Vector2( self.scene.chat_btn[0][1] )
+        
+        # if not self.dragging:
+        self.scene.box_selected = False
+        for box in self.scene.current_map.boxes:
+            if pygame.Rect( scale_tuple(box["collider"], self.scene.zoom) ).collidepoint(pos - self.scene.map_pos):
+                self.scene.box_selected = box
+                self.scene.building_info_pos = pygame.Vector2(0, 600)
+                self.scene.render_building_info()
+        
         if pos.distance_to( chat_btn_pos ) < self.scene.chat_btn[0][2]:
             self.scene.scene_manager.next_scene()
             

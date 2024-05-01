@@ -3,6 +3,7 @@ import pygame.display
 
 from scenes.messages_render import MsgRender
 from textbox import TextBox
+from utils import scale_tuple, sum_tuples
 
 class ChatScene:
     def __init__(self, scene_manager):
@@ -47,8 +48,22 @@ class ChatScene:
         self.surface.fill("gray10")
         
         pygame.draw.rect( self.surface, "gray15", (0, h - 120, w, 120  )) # BOTTOM BAR
-        pygame.draw.rect( self.surface, "gray10", (w-90, h - 110, 45, 50  )) # SEND
-        pygame.draw.rect( self.surface, "gray15", ( 50, 50, 40, 40  )) # EXIT
+        
+        send_box = pygame.Rect( w-90, h - 110, 45, 50)
+        pygame.draw.rect( self.surface, "gray10", send_box ) # SEND
+        
+        send_icon = self.asset_manager.get_icon("send")
+        semi_icon_size = scale_tuple(send_icon.get_size(), -0.5)
+        icon_pos = sum_tuples( send_box.center, semi_icon_size )
+        self.surface.blit( send_icon, icon_pos )
+        
+        exit_box = pygame.Rect( 50, 50, 40, 40  )
+        pygame.draw.rect( self.surface, "gray15", exit_box ) # EXIT
+        
+        exit_icon = self.asset_manager.get_icon("arrow-left")
+        semi_icon_size = scale_tuple( exit_icon.get_size(), -0.5 )
+        icon_pos = sum_tuples( exit_box.center, semi_icon_size )
+        self.surface.blit( exit_icon, icon_pos )
         
         if not "render" in self.text_bar_msg.keys() or self.text_bar_msg["text-redered"] != self.text_bar_msg["text"]:
             text_box_color = "gray11" if self.text_bar_focus else "gray10"

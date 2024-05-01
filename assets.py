@@ -3,6 +3,7 @@ import os
 
 class AssetManager:
     def __init__(self) -> None:
+        
         self.images_paths = {
             "mockup": "phone-mockup.png",
             "phone_bg": "phone-bg.png",
@@ -12,18 +13,41 @@ class AssetManager:
             "mask-black": "mask.png",
             "proto_map": "proto_map.jpeg"
         }
+        
+        self.icons_paths = {
+            "arrow-left": "arrow-left.svg",
+            "send": "send.svg"
+        }
+        
         self.images = {}
+        self.icons = {}
+        
         self.dirname = os.path.dirname(__file__)
+        
     
     def load(self):
-        self.font = pygame.font.SysFont( "Arial", 12 )
+        
+        self.font = pygame.font.SysFont( "Proxima Nova", 14 )
+        self.big_font = pygame.font.SysFont( "Proxima Nova", 24 )
+        
         for name, path in self.images_paths.items():
             self.images[name] = self.load_image(path)
+            
+        for icon, path in self.icons_paths.items():
+            self.icons[icon] = self.load_icon(path)
         
     def load_image(self, filename):
         fullpath = os.path.join(self.dirname, 'assets', filename)
         return pygame.image.load(fullpath)
     
+    def load_icon(self, filename):
+        fullpath = os.path.join(self.dirname, 'assets', 'icons', filename )
+        return pygame.image.load(fullpath)
+    
     def get(self, name):
         if name in self.images.keys():
             return self.images[name]
+        
+    def get_icon(self, name):
+        if name in self.icons.keys():
+            return self.icons[name]

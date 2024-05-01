@@ -1,5 +1,6 @@
 import pygame
 from assets import AssetManager
+from maps.main_map import MAIN_MAP
 
 WIDTH = 1280 / 2
 HEIGHT = 720 
@@ -40,50 +41,30 @@ class MapEditor:
         self.quit_check()
         self.screen.fill( (7, 8, 12) ) 
        
-        # TOP-LEFT --> RIGHT 
-        buildings = {
-            "IBC":      [ (360, 385), (448, 385), (448, 428), (360, 430) ],
-            "GEO":      [ (358, 360), (400, 360), (448, 373), (448, 382), (358, 382) ],
-            "ING-AU":   [ (220, 520), (300, 520), (285, 580), (215, 580) ],
-            "ICT":      [ (265, 360), (320, 360), (320, 438), (265, 440) ],
-            "FIN":      [ (210, 370), (240, 370), (240, 440), (210, 440) ],
-            "RA":       [ (150, 360), (207, 360), (207, 440), (150, 440) ]
-        }
-        
-        streets = {
-            "Errázuriz":    [ (  0, 220), ( 45, 225), (325, 300), (500, 350), 
-                              (500, 385), (325, 335), ( 45, 270), (  0, 265) ],
+        land, buildings, streets, green_areas = (MAIN_MAP.background, MAIN_MAP.boxes, MAIN_MAP.lines, MAIN_MAP.green_areas )
             
-            "A":            [ (  0, 340), (360, 345), (395, 355), (  0, 355)],
-            "Brasil":       [ (  0, 443), (330, 443), (490, 430), (490, 450),
-                              (345, 460), (  0, 460) ],
-            
-            "BrasilB":      [ (  0, 485), (345, 485), (490, 480), (490, 495), (345, 500), (0, 500) ]
-        }
+        #self.screen.blit( self.bg_img, (0,0) )
         
-        land = [ (-20, 130), ( 95, 140), (160, 140), (230, 140), (275, 130), 
-                 (340, 125), (425, 110), (640,  50), (640, 720), (-20, 720) ]
+        pygame.draw.polygon( self.screen, (26, 38, 54), land )
+        
+        for b in buildings:
+            points = b["points"]
+            pygame.draw.polygon( self.screen, (38, 52, 78), points ) 
+            if "collider" in b.keys():
+                pygame.draw.rect( self.screen, "red", b["collider"], width=3)
+            
+        for points in green_areas:
+            pygame.draw.polygon( self.screen, (20, 64, 67), points ) 
+        
+        for s in streets:
+            points = s["points"]
+            pygame.draw.polygon( self.screen, (68, 86, 110), points ) 
         
         mouse_pos = pygame.mouse.get_pos()
         if mouse_pos != self.mouse_label["value"] or not "render" in self.mouse_label.keys():
             self.mouse_label["value"] = mouse_pos
             self.mouse_label["text"] = str(mouse_pos)
             self.mouse_label["render"] = self.font.render( str(mouse_pos), True, "white")
-            
-        #self.screen.blit( self.bg_img, (0,0) )
-        
-        pygame.draw.polygon( self.screen, (26, 38, 54), land )
-        
-        for name, points in buildings.items():
-            pygame.draw.polygon( self.screen, (38, 52, 78), points ) 
-            
-            # x = [p[0] for p in points]
-            # y = [p[1] for p in points]
-            # centroid = (sum(x) / len(points), sum(y) / len(points))
-        
-        for name, points in streets.items():
-            pygame.draw.polygon( self.screen, (68, 86, 110), points ) 
-        
         
         self.screen.blit( self.mouse_label["render"], (10, 10) )
         
