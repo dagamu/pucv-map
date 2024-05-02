@@ -1,4 +1,5 @@
 import pygame
+from utils import sum_tuples
 
 class PhoneMenu:
     def __init__(self, scene_manager):
@@ -18,12 +19,6 @@ class PhoneMenu:
         self.animation_vel = []
         for i, val in enumerate(self.open_animation_rect):
             self.animation_vel.append( (self.open_animation_target[i] - val) / self.animation_totalframes )
-        
-    def sum_tuples(self, a, b):
-        result = []
-        for i, val in enumerate(a):
-            result.append(val + b[i])
-        return result
     
     def setup(self, asset_manager):
         self.asset_manager = asset_manager
@@ -35,7 +30,7 @@ class PhoneMenu:
         if self.open_animation:
             pygame.draw.rect( screen, (21, 141, 201), self.open_animation_rect)
             if self.open_animation_rect[0] >= self.open_animation_target[0]:
-                self.open_animation_rect = self.sum_tuples(self.open_animation_rect, self.animation_vel)
+                self.open_animation_rect = sum_tuples(self.open_animation_rect, self.animation_vel)
             else:
                 self.scene_manager.next_scene()
             

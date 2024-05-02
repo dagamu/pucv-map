@@ -1,6 +1,6 @@
 import pygame
 
-from scenes.map_events import EventHandler
+from scenes.map.map_events import EventHandler
 from maps.maps_manager import MapsManager
 from utils import scale_tuple, sum_tuples, alpha_gradient
 
@@ -38,17 +38,17 @@ class MapView:
         self.window_center = self.window_size * 0.5
         self.target_point = self.window_center.copy() - self.map_pos
         
-        self.map_render = self.current_map.render(font, 1 )
+        self.box_selected = False
+        self.building_info_pos = pygame.Vector2( 0, self.window_size[1] )
+        self.building_info_vel = 8
+        self.building_info_target = self.window_size[1] * 3/4
+        
+        self.map_render = self.current_map.render(font, 1, self.box_selected)
         self.mask = self.asset_manager.get("mask")
         
         self.map_size = pygame.Vector2( self.map_render.get_width(), self.map_render.get_height())
         self.original_map_size = self.map_size.copy()
         self.current_map.load( asset_manager )
-        
-        self.box_selected = False
-        self.building_info_pos = pygame.Vector2( 0, self.window_size[1] )
-        self.building_info_vel = 8
-        self.building_info_target = self.window_size[1] * 3/4
         
         self.zoom = 1
         self.zoomClamp = ( 0.75, 2 )
@@ -64,6 +64,11 @@ class MapView:
         
         w, h = self.window_size
         if self.box_selected:
+            shadow_height = 6
+            shadow = pygame.Surface( (w, shadow_height), pygame.SRCALPHA )
+            shadow.fill(0)
+            shadow = alpha_gradient(shadow, lambda x,y: y*10)
+            screen.blit( shadow, self.building_info_pos - pygame.Vector2(0, shadow_height))
             screen.blit( self.building_info_render, self.building_info_pos )
             if self.building_info_pos[1] > self.building_info_target:
                 self.building_info_pos += pygame.Vector2(0, -self.building_info_vel )
@@ -113,10 +118,10 @@ class MapView:
         
         icons_topleft = pygame.Vector2(50, 65)
         icons_pos = icons_topleft.copy()
+        
         for icon in box["icons"]:
             
             icon_img = self.asset_manager.get_icon( icon, (20,20) )
-            icon_size = icon_img.get_size()
             icon_box = pygame.Rect( icons_pos, (30, 30))
             
             pygame.draw.rect(s, (12, 22, 36), icon_box )
@@ -149,6 +154,6 @@ class MapView:
         
         self.map_size.scale_to_length( self.original_map_size.length() * self.zoom)
         font = self.asset_manager.font
-        self.map_render = pygame.transform.scale( self.original_map.render( font, self.zoom ), (self.map_size.x, self.map_size.y) )
+        self.map_render = pygame.transform.scale( self.original_map.render( font, self.zoom, self.box_selected ), (self.map_size.x, self.map_size.y))
         self.map_pos = self.window_center - self.target_point * self.zoom
         

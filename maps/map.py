@@ -1,5 +1,4 @@
 import pygame
-from assets import AssetManager
 
 class Map:
     def __init__( self, size, background, boxes, lines, green_areas, icons ):
@@ -18,8 +17,8 @@ class Map:
             i["render"] = self.asset_manager.get_icon( i["name"], (24, 24) )
     
     def get_box_center( self, points ):
-        x = [p[0] for p in points]
-        y = [p[1] for p in points]
+        x = [ p[0] for p in points ]
+        y = [ p[1] for p in points ]
         return (sum(x) / len(points), sum(y) / len(points))
     
     def render_box_label( self, box, zoom, font ):
@@ -27,13 +26,15 @@ class Map:
             
         return box_label
     
-    def render( self, font, zoom ):
+    def render( self, font, zoom, box_selected ):
         map_render = pygame.Surface( self.size )
         
         pygame.draw.polygon( map_render, (26, 38, 54), self.background )
         
         for box in self.boxes:
             
+            if box == box_selected:
+                pygame.draw.polygon( map_render, "green", box["points"], width=2 ) 
             pygame.draw.polygon( map_render, (38, 52, 78), box["points"] ) 
             box_center = self.get_box_center( box["points"])
             
@@ -48,10 +49,9 @@ class Map:
         for line in self.lines:
             pygame.draw.polygon( map_render, (68, 86, 110), line["points"] ) 
             
+            
         for i in self.icons:
             if "render" in i.keys():
                 map_render.blit( i["render"], i["pos"] )
             
         return map_render
-    
-    

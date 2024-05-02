@@ -1,7 +1,7 @@
 from scenes.phone_menu import PhoneMenu
 from scenes.app_menu import AppMenu
-from scenes.map_view import MapView
-from scenes.chat import ChatScene
+from scenes.map.map_scene import MapView
+from scenes.chat.chat import ChatScene
 
 class SceneManager:
     def __init__(self, asset_manager, scene_number):

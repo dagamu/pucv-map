@@ -25,8 +25,12 @@ class EventHandler:
         pos = pygame.Vector2( pygame.mouse.get_pos() )
         chat_btn_pos = pygame.Vector2( self.scene.chat_btn[0][1] )
         
-        # if not self.dragging:
-        self.scene.box_selected = False
+        if hasattr( self.scene, "building_info_render"):
+            info_rect = self.scene.building_info_render.get_rect()
+            info_rect = info_rect.move( self.scene.building_info_pos )
+            if not info_rect.collidepoint(pos):
+                self.scene.box_selected = False
+                
         for box in self.scene.current_map.boxes:
             if pygame.Rect( scale_tuple(box["collider"], self.scene.zoom) ).collidepoint(pos - self.scene.map_pos):
                 self.scene.box_selected = box

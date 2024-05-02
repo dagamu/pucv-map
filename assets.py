@@ -12,6 +12,7 @@ class AssetManager:
             "mask": ["mask-white.png"],
             "mask-black": ["mask.png"],
             "proto_map": ["proto_map.jpeg"],
+            "ING_AU_map": ["ING_AU_proto.png"],
             
             "IBC-photo": [ "buildings", "IBC.jpg" ],
             "FIN-photo": [ "buildings", "FIN.jpg" ],
