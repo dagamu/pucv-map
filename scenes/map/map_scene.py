@@ -1,6 +1,8 @@
 import pygame
 
 from scenes.map.map_events import EventHandler
+from scenes.map.map_ui import MapUI
+
 from maps.maps_manager import MapsManager
 from utils import scale_tuple, sum_tuples, alpha_gradient
 
@@ -9,6 +11,7 @@ class MapView:
         self.scene_name = "Map View"
         
         self.event_handler = EventHandler(self)
+        self.ui = MapUI(self)
         self.maps_manager = MapsManager()
         self.scene_manager = scene_manager
     
@@ -21,18 +24,12 @@ class MapView:
         self.original_map = self.maps_manager.get("Main")
         self.current_map = self.original_map
         
-        self.show_info = False
-        self.info_values = {
-            "map_pos": { "value": self.map_pos.copy() },
-            "zoom": { "value": 1 },
-            "box_selected": { "value": False },
-            "building_info_pos": { "value": (0,0) }
-        }
-        
         
     def setup(self, asset_manager):
         self.asset_manager = asset_manager
         font = self.asset_manager.font
+        
+        self.ui.load()
         
         self.window_size = pygame.Vector2( pygame.display.get_surface().get_size() )
         self.window_center = self.window_size * 0.5
@@ -57,7 +54,8 @@ class MapView:
         
     def loop(self, screen):
         
-        pygame.draw.rect( screen, (7, 8, 12), (0,0,360,700))
+        bg_color = self.current_map.opt["background-color"]
+        pygame.draw.rect( screen, bg_color, (0,0,360,700))
         mouse_pos = pygame.Vector2( pygame.mouse.get_pos() )
         
         screen.blit(self.map_render, (self.map_pos.x, self.map_pos.y))
@@ -76,8 +74,7 @@ class MapView:
         pygame.draw.circle( screen, *self.chat_btn[0] )
         pygame.draw.circle( screen, *self.chat_btn[1] )
         
-        if self.show_info:
-            self.render_info( screen )
+        self.ui.render( screen )
             
         self.event_handler.check_loop()
         
@@ -131,29 +128,12 @@ class MapView:
         
         self.building_info_render = s
             
-    
-    def render_info(self, screen):
-        info_pos = pygame.Vector2(50,60)
-        for i, (name, value) in enumerate(self.info_values.items()):
-            render_exists = not "render" in value.keys()
-            
-            if type(self.__dict__[name] ) == type(2.1):
-                current_value = round( self.__dict__[name] , 3)
-            else:
-                current_value = self.__dict__[name]
-                
-            if render_exists or str(current_value) != value["text"]:
-                value["render"] = self.asset_manager.font.render( str(f"{name}: {current_value}"), True, "white" )
-                value["text"] = str(current_value)
-                value["value"] = current_value
-            screen.blit( value["render"], info_pos + pygame.Vector2(0,i*15))
-            
     def update_scale(self):
         
         self.zoom = pygame.math.clamp( self.zoom, *self.zoomClamp )
         
         self.map_size.scale_to_length( self.original_map_size.length() * self.zoom)
         font = self.asset_manager.font
-        self.map_render = pygame.transform.scale( self.original_map.render( font, self.zoom, self.box_selected ), (self.map_size.x, self.map_size.y))
+        self.map_render = pygame.transform.scale( self.current_map.render( font, self.zoom, self.box_selected ), (self.map_size.x, self.map_size.y))
         self.map_pos = self.window_center - self.target_point * self.zoom
         

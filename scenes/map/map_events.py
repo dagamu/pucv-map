@@ -1,6 +1,6 @@
 import pygame
 
-from utils import scale_tuple
+from utils import scale_tuple, get_rect_polygon
 
 class EventHandler:
     def __init__(self, scene):
@@ -19,20 +19,40 @@ class EventHandler:
             
     def handle_key_up(self, e):
         if e.unicode == "i":
-            self.scene.show_info = not self.scene.show_info
+            self.scene.ui.toggle_dev_info()
         
     def handle_click(self):
         pos = pygame.Vector2( pygame.mouse.get_pos() )
         chat_btn_pos = pygame.Vector2( self.scene.chat_btn[0][1] )
         
+        def colllide_box( box, position ):
+            if not "collider" in box.keys():
+                box["collider"] = get_rect_polygon( box["points"] )
+                
+            rect = pygame.Rect( scale_tuple(box["collider"], self.scene.zoom) )
+            return rect.collidepoint(position)
+        
         if hasattr( self.scene, "building_info_render"):
             info_rect = self.scene.building_info_render.get_rect()
             info_rect = info_rect.move( self.scene.building_info_pos )
             if not info_rect.collidepoint(pos):
-                self.scene.box_selected = False
+                if self.scene.box_selected == False:
+                    self.scene.box_selected = False
+                elif not colllide_box( self.scene.box_selected, pos - self.scene.map_pos ):
+                    self.scene.box_selected = False
+                
                 
         for box in self.scene.current_map.boxes:
-            if pygame.Rect( scale_tuple(box["collider"], self.scene.zoom) ).collidepoint(pos - self.scene.map_pos):
+            if colllide_box(box, pos - self.scene.map_pos):
+                if self.scene.box_selected == box and "map-link" in box.keys():
+                    self.scene.current_map = self.scene.maps_manager.get( box["map-link"])
+                    self.scene.current_map.load(self.scene.asset_manager)
+                    self.scene.box_selected = False
+                    self.scene.map_render = self.scene.current_map.render( self.scene.asset_manager.font, self.scene.zoom, self.scene.box_selected )
+                    self.original_map_size = self.scene.map_render.get_size()
+                    self.map_size = self.original_map_size
+                    
+                    return
                 self.scene.box_selected = box
                 self.scene.building_info_pos = pygame.Vector2(0, 600)
                 self.scene.render_building_info()

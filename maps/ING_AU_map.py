@@ -58,5 +58,8 @@ ING_AU_MAP = Map(
     boxes = boxes,
     lines = [],
     green_areas = [],
-    icons = []
+    icons = [],
+    opt = {
+        "background-color": (20, 30, 45)
+    }
 )

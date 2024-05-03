@@ -4,24 +4,20 @@ import os
 class AssetManager:
     def __init__(self) -> None:
         
+        self.buildings = [ "IBC", "FIN", "GEO", "ICT", "ING-AU", "RA", "EIB"]
         self.images_paths = {
-            "mockup": ["phone-mockup.png"],
-            "phone_bg": ["phone-bg.png"],
-            "app_loading": ["app-loading.png"],
-            "app_menu": ["app-menu.png"],
-            "mask": ["mask-white.png"],
-            "mask-black": ["mask.png"],
-            "proto_map": ["proto_map.jpeg"],
-            "ING_AU_map": ["ING_AU_proto.png"],
-            
-            "IBC-photo": [ "buildings", "IBC.jpg" ],
-            "FIN-photo": [ "buildings", "FIN.jpg" ],
-            "GEO-photo": [ "buildings", "GEO.webp" ],
-            "ICT-photo": [ "buildings", "ICT.jpg" ],
-            "ING-AU-photo": [ "buildings", "ING-AU.jpg" ],
-            "RA-photo": [ "buildings", "RA.jpg" ],
-            "EIB-photo": [ "buildings", "EIB.jpg" ],
+            "mockup":       [ "phone-mockup.png" ] ,
+            "phone_bg":     [ "phone-bg.png" ],
+            "app_loading":  [ "app-loading.png" ],
+            "app_menu":     [ "app-menu.png" ],
+            "mask":         [ "mask-white.png" ],
+            "mask-black":   [ "mask.png" ],
+            "proto_map":    [ "proto_map.jpeg" ],
+            "ING_AU_map":   [ "ING_AU_proto.png" ],
         }
+        
+        for b in self.buildings:
+            self.images_paths[f"{b}-photo"] = [ "buildings", f"{b}.jpg"]
         
         self.icons_paths = {
             "arrow-left": "arrow-left.svg",

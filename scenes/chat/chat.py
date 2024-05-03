@@ -91,4 +91,3 @@ class ChatScene:
             self.scene_manager.go_to("Map View")
             self.fade_frame = -1
             self.frame_count = 0
-        

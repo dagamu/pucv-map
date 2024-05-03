@@ -20,3 +20,13 @@ def alpha_gradient( surface, function ):
             a[3] = pygame.math.clamp( function(x,y), 0, 250 )
             result.set_at((x, y), a)
     return result
+
+def get_rect_polygon( points ):
+    
+    x = [ p[0] for p in points ]
+    y = [ p[1] for p in points ]
+    
+    w = max(x) - min(x)
+    h = max(y) - min(y)
+    
+    return [ min(x), min(y), w, h ]

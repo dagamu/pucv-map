@@ -24,6 +24,7 @@ buildings = [
     },
     {
         "name": "ING-AU",
+        "map-link": "ING-AU",
         "labels": {
             "long": "Aulario de Ing. Química",
             "subtitle": "Ing. Quimica - Ing. en Minas - Ing. Metalúrgica"

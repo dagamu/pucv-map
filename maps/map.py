@@ -1,7 +1,7 @@
 import pygame
 
 class Map:
-    def __init__( self, size, background, boxes, lines, green_areas, icons ):
+    def __init__( self, size, background, boxes, lines, green_areas, icons, opt={} ):
         
         self.size = size
         self.background = background
@@ -10,6 +10,10 @@ class Map:
         self.green_areas = green_areas
         self.icons = icons
         
+        self.opt = {
+            "background-color": (7, 8, 12),
+            **opt
+        }        
         
     def load(self, asset_manager):
         self.asset_manager = asset_manager
@@ -28,6 +32,7 @@ class Map:
     
     def render( self, font, zoom, box_selected ):
         map_render = pygame.Surface( self.size )
+        map_render.fill( self.opt["background-color"] )
         
         pygame.draw.polygon( map_render, (26, 38, 54), self.background )
         

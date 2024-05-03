@@ -66,4 +66,3 @@ class TextBox:
             render.blit( line, ( x_line, i*line_height + p) )
     
         return render
-        
