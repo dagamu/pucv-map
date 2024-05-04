@@ -9,27 +9,28 @@ class EventHandler:
         self.prev_mouse_pos = pygame.Vector2()
         
     def handle_event(self, e):
-        if e.type == pygame.MOUSEBUTTONUP:
+        if e.type == pygame.MOUSEBUTTONUP and e.button == 1:
             self.handle_click()
         elif e.type == pygame.MOUSEWHEEL:
-            self.scene.zoom += e.y * 0.05
-            self.scene.update_scale()
+            self.scene.map.change_zoom( e.y )
+            self.scene.map.move( pygame.Vector2(e.x*-3,0) )
         elif e.type == pygame.KEYUP:
             self.handle_key_up(e)
             
     def handle_key_up(self, e):
         if e.unicode == "i":
             self.scene.ui.toggle_dev_info()
+            print(self.scene.ui.dev_info.info_values)
+            
         
     def handle_click(self):
         pos = pygame.Vector2( pygame.mouse.get_pos() )
-        chat_btn_pos = pygame.Vector2( self.scene.chat_btn[0][1] )
         
         def colllide_box( box, position ):
             if not "collider" in box.keys():
                 box["collider"] = get_rect_polygon( box["points"] )
                 
-            rect = pygame.Rect( scale_tuple(box["collider"], self.scene.zoom) )
+            rect = pygame.Rect( scale_tuple(box["collider"], self.scene.map.zoom) )
             return rect.collidepoint(position)
         
         if hasattr( self.scene, "building_info_render"):
@@ -42,56 +43,41 @@ class EventHandler:
                     self.scene.box_selected = False
                 
                 
-        for box in self.scene.current_map.boxes:
-            if colllide_box(box, pos - self.scene.map_pos):
+        for box in self.scene.map.boxes:
+            if colllide_box(box, pos - self.scene.map.pos): # ***
                 if self.scene.box_selected == box and "map-link" in box.keys():
-                    self.scene.current_map = self.scene.maps_manager.get( box["map-link"])
-                    self.scene.current_map.load(self.scene.asset_manager)
-                    self.scene.box_selected = False
-                    self.scene.map_render = self.scene.current_map.render( self.scene.asset_manager.font, self.scene.zoom, self.scene.box_selected )
-                    self.original_map_size = self.scene.map_render.get_size()
-                    self.map_size = self.original_map_size
+                    self.scene.map = self.scene.maps_manager.get( box["map-link"] )
+                    self.scene.set_viewport()
                     
+                    self.scene.box_selected = False
                     return
+                
                 self.scene.box_selected = box
-                self.scene.building_info_pos = pygame.Vector2(0, 600)
-                self.scene.render_building_info()
+                self.scene.ui.building_infobox.pos = pygame.Vector2(0, 600)
+                self.scene.ui.building_infobox.render()
         
-        if pos.distance_to( chat_btn_pos ) < self.scene.chat_btn[0][2]:
+        chat_btn_pos = pygame.Vector2( self.scene.ui.chat_btn[0][1] )
+        if pos.distance_to( chat_btn_pos ) < self.scene.ui.chat_btn[0][2]:
             self.scene.scene_manager.next_scene()
             
-    def move_keys(self, keys ):
-        if keys[pygame.K_LEFT]: 
-            self.scene.map_pos.x += self.scene.move_vel
-            self.scene.target_point.x += self.scene.move_vel / -self.scene.zoom
+        self.scene.ui.handle_click( pos )
             
-        if keys[pygame.K_RIGHT]: 
-            self.scene.map_pos.x -= self.scene.move_vel
-            self.scene.target_point.x -= self.scene.move_vel / -self.scene.zoom
-              
-        if keys[pygame.K_UP]: 
-            self.scene.map_pos.y += self.scene.move_vel
-            self.scene.target_point.y += self.scene.move_vel / -self.scene.zoom
-               
-        if keys[pygame.K_DOWN]:
-            self.scene.map_pos.y -= self.scene.move_vel 
-            self.scene.target_point.y -= self.scene.move_vel / -self.scene.zoom
+    def move_keys(self, keys ):
+        x_change = int( keys[pygame.K_LEFT] ) - int( keys[pygame.K_RIGHT] )
+        y_change = int( keys[pygame.K_UP  ] ) - int( keys[pygame.K_DOWN ] )
+        pos_change = pygame.Vector2( x_change, y_change )
+        self.scene.map.move( pos_change )
         
     def zoom_keys(self, keys):
-        if keys[pygame.K_z]:
-            self.scene.zoom += 0.01
-            self.scene.update_scale()
-            
-        if keys[pygame.K_x]:
-            self.scene.zoom -= 0.01
-            self.scene.update_scale()
+        zoom_change = int( keys[pygame.K_z] ) - int( keys[pygame.K_x] )
+        if zoom_change != 0:
+            self.scene.map.change_zoom(zoom_change)
             
     def drag_check(self):
         if pygame.mouse.get_pressed()[0]:
             mouse_pos = pygame.Vector2( pygame.mouse.get_pos() )
             if self.dragging:
-                self.scene.map_pos += mouse_pos - self.prev_mouse_pos
-                self.scene.target_point += (mouse_pos - self.prev_mouse_pos) / -self.scene.zoom
+                self.scene.map.move(mouse_pos - self.prev_mouse_pos) 
             else:
                 self.dragging = True
             self.prev_mouse_pos = mouse_pos

@@ -17,7 +17,7 @@ def alpha_gradient( surface, function ):
     for x in range(s_size[0]):
         for y in range(s_size[1]):
             a = result.get_at((x, y))
-            a[3] = pygame.math.clamp( function(x,y), 0, 250 )
+            a[3] = pygame.math.clamp( int(function(x,y)), 0, 250 )
             result.set_at((x, y), a)
     return result
 

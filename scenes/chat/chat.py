@@ -35,6 +35,9 @@ class ChatScene:
         self.msg_render = MsgRender(self)
         self.bar_textbox = TextBox( self.font )
         
+        pet_img = self.asset_manager.get("pet")
+        self.pet_img = pygame.transform.scale( pet_img, (25,25))
+        
     
     def loop(self, screen):
         self.frame_count += 1

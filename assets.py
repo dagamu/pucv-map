@@ -14,6 +14,7 @@ class AssetManager:
             "mask-black":   [ "mask.png" ],
             "proto_map":    [ "proto_map.jpeg" ],
             "ING_AU_map":   [ "ING_AU_proto.png" ],
+            "pet":          [ "pet", "normal_mascota.png"]
         }
         
         for b in self.buildings:

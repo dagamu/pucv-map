@@ -1,6 +1,8 @@
 import pygame
 from textbox import TextBox
 
+from utils import sum_tuples, scale_tuple
+
 class MsgRender:
     def __init__(self, chat):
         self.chat = chat
@@ -22,7 +24,11 @@ class MsgRender:
         }
         
         if align == "left":
+            circle_pos = (70, y_pos + 5)
+            img_size = self.chat.pet_img.get_size()
+            img_pos = sum_tuples( circle_pos, scale_tuple(img_size,-0.5))
             pygame.draw.circle( surface, (21, 141, 201), (70, y_pos + 5), 15)
+            surface.blit( self.chat.pet_img, img_pos )
             text_x = 96
         else:
             text_x = w - text_w - 60 

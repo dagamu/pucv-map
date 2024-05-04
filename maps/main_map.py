@@ -130,11 +130,18 @@ constraints = {
     "min_x": 0
 }
 
+boundaries = [ 0, 0, 600, 700 ]
+
 MAIN_MAP = Map(
     size = (640, 1000),
     background = land,
     boxes = buildings,
     lines = streets,
     green_areas = green_areas,
-    icons = icons
+    icons = icons,
+    boundaries = boundaries,
+    opt = {
+        "start-pos": (-185, 20),
+        "return-action": ["scene", "App Menu"]
+    }
 )
