@@ -22,8 +22,9 @@ class MapEditor:
         self.bg_img = self.asset_manager.get("ING_AU_map")
         
         self.map = MAP
-        self.map.load(self.asset_manager)
-        self.map_render = self.map.render( self.asset_manager.font, 1, False )
+        self.map.setup()
+        self.map.load(self.asset_manager, scale=False)
+        self.map_render = self.map.render
         
         w, h = self.bg_img.get_size()
         scaled_size = (w * HEIGHT*.7/h, HEIGHT*.7)
@@ -51,6 +52,16 @@ class MapEditor:
         self.screen.blit( self.map_render, (0,0) )
         pygame.draw.rect( self.screen, "green", self.map.boundaries, width=3 )
         
+        def get_node_pos(id):
+            for node in self.map.nodes:
+                if node["id"] == id:
+                    return node["pos"]
+        
+        for node in self.map.nodes:
+            pygame.draw.circle( self.screen, "blue", node["pos"], 5 )
+            self.screen.blit( self.font.render(str(node["id"]), True, "white"), node["pos"])
+            for line in node["link"]:
+                pygame.draw.line( self.screen, (0,255,0,120), node["pos"], get_node_pos(line) )
         
         mouse_pos = pygame.mouse.get_pos()
         if mouse_pos != self.mouse_label["value"] or not "render" in self.mouse_label.keys():

@@ -10,7 +10,8 @@ buildings = [
         "points": [ (360, 385), (448, 385), (448, 428), (360, 430) ],
         "collider": [ 360, 385, 88, 43 ],
         "info-img-offset": 250,
-        "icons": [ "coffee", "computer-lab" ]
+        "icons": [ "coffee", "computer-lab" ],
+        "enter_node": 5
     }, 
     {
         "name": "GEO",
@@ -20,7 +21,8 @@ buildings = [
         "points":      [ (358, 360), (400, 360), (448, 373), (448, 382), (358, 382) ],
         "collider": [ 360, 360, 90, 20 ],
         "info-img-offset": 270,
-        "icons": [ "computer-lab" ]
+        "icons": [ "computer-lab" ],
+        "enter_node": 5
     },
     {
         "name": "ING-AU",
@@ -32,7 +34,8 @@ buildings = [
         "points":   [ (220, 520), (300, 520), (285, 580), (215, 580) ],
         "collider": [ 220, 520, 80, 60 ],
         "info-img-offset": 200,
-        "icons": [ "coffee", "computer-lab" ]
+        "icons": [ "coffee", "computer-lab" ],
+        "enter_node": 12
     },
     {
         "name": "ICT",
@@ -42,7 +45,8 @@ buildings = [
         "points": [ (265, 360), (320, 360), (320, 438), (265, 440) ],
         "collider": [265, 360, 55, 78 ],
         "info-img-offset": 200,
-        "icons": [ "coffee", "computer-lab" ]
+        "icons": [ "coffee", "computer-lab" ],
+        "enter_node": 18
     },
     {
         "name": "FIN",
@@ -52,7 +56,8 @@ buildings = [
         "points": [ (210, 370), (240, 370), (240, 440), (210, 440) ],
         "collider": [ 210, 370, 30, 70 ],
         "info-img-offset": 200,
-        "icons": [ "coffee", "library", "music" ]
+        "icons": [ "coffee", "library", "music" ],
+        "enter_node": 8
         
     },
     {
@@ -64,7 +69,8 @@ buildings = [
         "points": [ (150, 360), (207, 360), (207, 440), (150, 440) ],
         "collider": [ 150, 360, 57, 80 ],
         "info-img-offset": 205,
-        "icons": [ "computer-lab" ]
+        "icons": [ "computer-lab" ],
+        "enter_node": 8
     },
     {
         "name": "EIB",
@@ -74,7 +80,9 @@ buildings = [
         "points": [ (10, 380), (67, 380), (67, 440), (10, 440) ],
         "collider": [10, 380, 57, 60],
         "info-img-offset": 171,
-        "icons": [ "computer-lab" ]
+        "icons": [ "computer-lab" ],
+        "enter_node": 21
+        
     }
 ]
 
@@ -130,6 +138,30 @@ constraints = {
     "min_x": 0
 }
 
+nodes = [
+    { "pos": (385, 285), "id": "1" , "link": ["14"] },
+    { "pos": (485, 390), "id": "2" , "link": [ "3", "13"] },
+    { "pos": (455, 375), "id": "3" , "link": [ "2", "4", "15"] },
+    { "pos": (455, 425), "id": "4" , "link": [ "3", "5"] },
+    { "pos": (400, 430), "id": "5" , "link": [ "6", "4"] },
+    { "pos": (350, 435), "id": "6" , "link": [ "7", "5", "16"] },
+    { "pos": (320, 435), "id": "7" , "link": [ "8", "9", "6", "18"] },
+    { "pos": (220, 435), "id": "8" , "link": [ "7", "19"] },
+    { "pos": (325, 465), "id": "9" , "link": [ "7", "10"] },
+    { "pos": (325, 480), "id": "10", "link": ["11", "9"] },
+    { "pos": (325, 505), "id": "11", "link": ["12", "10"] },
+    { "pos": (255, 505), "id": "12", "link": ["11"] },
+    { "pos": (495, 340), "id": "13", "link": ["14", "2"] },
+    { "pos": (370, 305), "id": "14", "link": ["1", "13"] },
+    { "pos": (395, 355), "id": "15", "link": ["16","3"] },
+    { "pos": (345, 355), "id": "16", "link": ["15", "17", "6"] },
+    { "pos": (325, 355), "id": "17", "link": ["18", "16"] },
+    { "pos": (320, 410), "id": "18", "link": ["7", "17"] },
+    { "pos": (115, 435), "id": "19", "link": ["8", "20"] },
+    { "pos": (90, 435),  "id": "20", "link": ["19", "21"] },
+    { "pos": (35, 435),  "id": "21", "link": ["20"] },
+]
+
 boundaries = [ 0, 0, 600, 700 ]
 
 MAIN_MAP = Map(
@@ -139,6 +171,7 @@ MAIN_MAP = Map(
     lines = streets,
     green_areas = green_areas,
     icons = icons,
+    nodes = nodes,
     boundaries = boundaries,
     opt = {
         "start-pos": (-185, 20),

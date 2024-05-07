@@ -11,6 +11,8 @@ class MapView:
     def __init__(self, scene_manager):
         self.scene_name = "Map View"
         
+        self.box_selected = False
+        
         self.event_handler = EventHandler(self)
         self.ui = MapUI(self)
         self.maps_manager = MapsManager(self)
@@ -25,7 +27,6 @@ class MapView:
         self.set_viewport()
         self.maps_manager.load()
         self.ui.load()
-        self.box_selected = False
         
     def set_viewport(self):
         self.window_size = pygame.Vector2( pygame.display.get_surface().get_size() )
@@ -54,6 +55,9 @@ class MapView:
             #print("Out")
             pass
         
+        if self.maps_manager.finding_path:
+            self.maps_manager.loop()
+        
         w, h = self.window_size
         if self.box_selected:
             self.ui.building_infobox.loop( screen )
@@ -67,3 +71,8 @@ class MapView:
             box_rect = pygame.Rect( box["collider"] )
             box_rect.update( scale_tuple( (*box_rect.topleft, *box_rect.size), self.map.zoom))
             pygame.draw.rect( self.map_render, "red", box_rect, width=3)
+            
+    def get_box_selected(self):
+        if "box_selected" in self.__dict__.keys() and self.box_selected:
+            return self.box_selected["name"]
+        return False

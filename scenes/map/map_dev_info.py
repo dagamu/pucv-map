@@ -3,11 +3,11 @@ import pygame
 class MapDevInfo:
     def __init__(self, scene):
         self.scene = scene
-        self.start_pos = pygame.Vector2(50,60)
+        self.start_pos = pygame.Vector2(50,100)
         self.info_values = {
-            "map_pos": { "value": self.scene.map.pos },
-            "zoom": { "value": self.scene.map.zoom },
-            "box_selected": { "value": False }
+            "map_pos": { "get_value": self.scene.map.get_pos },
+            "zoom": { "get_value": self.scene.map.get_zoom },
+            "box_selected": { "get_value": self.scene.get_box_selected }
         }
         
     def load(self):
@@ -15,7 +15,7 @@ class MapDevInfo:
         
     def render( self, screen ):
         for i, (name, value) in enumerate( self.info_values.items() ):
-            current_value = value["value"]
+            current_value = value["get_value"]()
             render_doesnt_exists = not "render" in value.keys()
             if render_doesnt_exists or str(current_value) != value["text"]:
                 self.render_line( current_value, name, value )

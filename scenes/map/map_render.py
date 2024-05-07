@@ -25,6 +25,7 @@ class MapRender:
                 pygame.draw.polygon( map_render, "green", box["points"], width=2 ) 
             pygame.draw.polygon( map_render, (38, 52, 78), box["points"] ) 
             box_center = self.get_box_center( box["points"])
+            box["box_center"] = box_center
             
             box_label = self.render_box_label( box, font )
             
@@ -44,5 +45,11 @@ class MapRender:
         for i in self.map.icons:
             if "render" in i.keys():
                 map_render.blit( i["render"], i["pos"] )
+            
+        for i in range(len(self.map.path)-2):
+            point = self.map.path[i]
+            start_p = point
+            end_p = self.map.path[i+1]
+            pygame.draw.line( map_render,  "blue", start_p, end_p, width=3 )
             
         return map_render

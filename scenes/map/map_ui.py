@@ -2,6 +2,7 @@ import pygame
 
 from scenes.map.map_dev_info import MapDevInfo
 from scenes.map.map_building_infobox import BuildingInfoBox
+from scenes.map.search_bar import SearchBar
 
 from utils import sum_tuples, alpha_gradient, scale_tuple
 from math import sqrt
@@ -12,11 +13,12 @@ class MapUI:
         self.show_dev_info = False
         
         self.building_infobox = BuildingInfoBox( scene )
+        self.search_bar = SearchBar( scene )
         self.return_btn_rect = pygame.Rect(50,50,40,40)
         
         
-        self.chat_btn = [ ["white", (280, 620), 30 ],
-                         [ (21, 141, 201), (280, 620), 28 ] ]
+        self.chat_btn = [ ["white", (270, 600), 30 ],
+                         [ (21, 141, 201), (270, 600), 28 ] ]
         
         r = self.chat_btn[0][2]
         shadow_size = ( r*3, r*3 )
@@ -29,9 +31,10 @@ class MapUI:
         self.dev_info = MapDevInfo( self.scene )
         self.dev_info.load()
         self.building_infobox.load()
+        self.search_bar.load()
         
         pet_img = self.scene.asset_manager.get("pet")
-        self.chat_btn_pet = pygame.transform.scale( pet_img, (50,50))
+        self.chat_btn_pet = pygame.transform.scale( pet_img, (80,80))
         
     def render( self, screen ):
         if self.show_dev_info:
@@ -39,11 +42,13 @@ class MapUI:
         
         #screen.blit( self.chat_btn_shadow, self.shadow_pos )
         #pygame.draw.circle( screen, *self.chat_btn[0] )
-        pygame.draw.circle( screen, *self.chat_btn[1] )
-        screen.blit(self.chat_btn_pet, sum_tuples( self.chat_btn[0][1], (-25, -28)) )
+        #pygame.draw.circle( screen, *self.chat_btn[1] )
+        screen.blit(self.chat_btn_pet, sum_tuples( self.chat_btn[0][1], (-40, -40)) )
             
         pygame.draw.rect( screen, (38, 42, 79), self.return_btn_rect, border_radius=3 )
         screen.blit( self.scene.asset_manager.get_icon("arrow-left"), (58, 58) )
+        
+        self.search_bar.loop(screen)
          
     def toggle_dev_info(self):
         self.show_dev_info = not self.show_dev_info 
@@ -55,3 +60,8 @@ class MapUI:
                 self.scene.scene_manager.go_to( action[1] )
             elif action[0] == "map":
                 self.scene.map = self.scene.maps_manager.get( action[1] )
+                
+        if self.search_bar.rect.collidepoint( mpos ):
+            self.search_bar.toggle_focus()
+        else:
+            self.search_bar.focus = False

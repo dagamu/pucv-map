@@ -18,9 +18,11 @@ class EventHandler:
             self.handle_key_up(e)
             
     def handle_key_up(self, e):
+        if self.scene.ui.search_bar.focus:
+            self.scene.ui.search_bar.handle_key( e )
+            return
         if e.unicode == "i":
             self.scene.ui.toggle_dev_info()
-            print(self.scene.ui.dev_info.info_values)
             
         
     def handle_click(self):

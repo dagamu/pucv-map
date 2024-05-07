@@ -27,7 +27,9 @@ class AssetManager:
             "coffee": "coffee.svg",
             "computer-lab": "computer-lab.svg",
             "library": "library.svg",
-            "music": "music.svg"
+            "music": "music.svg",
+            "search": "search.svg",
+            "go_to": "go_to.svg"
         }
         
         self.images = {}

@@ -9,7 +9,7 @@ class TextBox:
         
     def get_text( self, text, max_width, p ):
         font = self.font
-        lines = [ font.render( text, True, "white") ]
+        lines = [ font.render( text, True, "white" ) ]
         
         w = self.line_width(lines[0])
         if w > max_width:
@@ -45,14 +45,14 @@ class TextBox:
         w = max( min_width, min( max_width, max_line_width + 2*p ) )
         h = min( max_height, len(lines)*self.line_height + 2*p )
         
-        box = pygame.Surface( (w, h) )
+        box = pygame.Surface( (w, h), pygame.SRCALPHA   )
         box.fill(bg_color) 
         return box, w
             
     def line_width( self, line ):
         return line.get_size()[0]
     
-    def render( self, text, align, p, max_box_width, bg_color="gray15", min_width=0, max_height=-1 ):
+    def render( self, text, align="left", p=0, max_box_width=100, bg_color="gray15", min_width=0, max_height=-1 ):
         
         line_height = self.line_height
         max_width = max_box_width - 2 * p

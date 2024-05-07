@@ -21,6 +21,9 @@ def alpha_gradient( surface, function ):
             result.set_at((x, y), a)
     return result
 
+def sign( n ):
+    return n/abs(n)
+
 def get_rect_polygon( points ):
     
     x = [ p[0] for p in points ]
