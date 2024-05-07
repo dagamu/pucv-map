@@ -1,7 +1,7 @@
 import pygame
 from assets import AssetManager
-from maps.main_map import MAIN_MAP as MAP
-#from maps.ING_AU_map import ING_AU_MAP as MAP
+#from maps.main_map import MAIN_MAP as MAP
+from maps.ING_AU_map import ING_AU_MAP as MAP
 
 WIDTH = 1280 / 2
 HEIGHT = 720 
@@ -44,24 +44,28 @@ class MapEditor:
             self.loop()
         pygame.quit()
         
+    def draw_nodes(self):
+        def get_node_pos(id):
+            for node in self.map.nodes:
+                if node["id"] == id:
+                    return node["pos"]
+                
+        for node in self.map.nodes:
+            pygame.draw.circle( self.screen, "blue", node["pos"], 5 )
+            self.screen.blit( self.font.render(str(node["id"]), True, "white"), node["pos"])
+            for line in node["link"]:
+                pygame.draw.line( self.screen, (0,255,0,120), node["pos"], get_node_pos(line) )
+        
     def loop(self):
         self.quit_check()
         self.screen.fill( (7, 8, 12) ) 
        
         #self.screen.blit( self.bg_img, (0,0) )
         self.screen.blit( self.map_render, (0,0) )
-        pygame.draw.rect( self.screen, "green", self.map.boundaries, width=3 )
         
-        def get_node_pos(id):
-            for node in self.map.nodes:
-                if node["id"] == id:
-                    return node["pos"]
+        #pygame.draw.rect( self.screen, "green", self.map.boundaries, width=3 )
+        #self.draw_nodes()
         
-        for node in self.map.nodes:
-            pygame.draw.circle( self.screen, "blue", node["pos"], 5 )
-            self.screen.blit( self.font.render(str(node["id"]), True, "white"), node["pos"])
-            for line in node["link"]:
-                pygame.draw.line( self.screen, (0,255,0,120), node["pos"], get_node_pos(line) )
         
         mouse_pos = pygame.mouse.get_pos()
         if mouse_pos != self.mouse_label["value"] or not "render" in self.mouse_label.keys():
@@ -69,7 +73,7 @@ class MapEditor:
             self.mouse_label["text"] = str(mouse_pos)
             self.mouse_label["render"] = self.font.render( str(mouse_pos), True, "white")
         
-        self.screen.blit( self.mouse_label["render"], (10, 10) )
+        #self.screen.blit( self.mouse_label["render"], (10, 10) )
         
         pygame.display.flip()
         self.clock.tick( self.FPS )

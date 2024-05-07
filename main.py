@@ -54,8 +54,8 @@ class App:
             
 
 def main():
-    game = App(WIDTH, HEIGHT)
-    game.run()
+    app = App(WIDTH, HEIGHT)
+    app.run()
     
 if __name__ == "__main__":
     main()

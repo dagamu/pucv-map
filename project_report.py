@@ -1,29 +1,32 @@
 import os
 
-def contar_lineas_archivo(archivo):
-    with open(archivo, 'r', encoding='utf-8') as f:
-        return sum(1 for linea in f)
+def count_file_lines(file):
+    with open(file, 'r', encoding='utf-8') as f:
+        return sum(1 for _ in f)
 
-def mostrar_arbol_directorio(directorio):
-    total_lineas = 0
+def show_tree_dir(dir_path):
+    total_lines = 0
+    total_files = 0
     last_slash = 0
-    for raiz, directorios, archivos in os.walk(directorio):
-        for archivo in archivos:
-            if archivo.endswith('.py'):
-                ruta_archivo = os.path.join(raiz, archivo)
-                lineas = contar_lineas_archivo(ruta_archivo)
-                total_lineas += lineas
+    for raiz, _, files in os.walk(dir_path):
+        for filename in files:
+            if filename.endswith('.py'):
+                file_path = os.path.join(raiz, filename)
+                lines = count_file_lines(file_path)
+                total_lines += lines
                 
-                current_slash = ruta_archivo.rfind("\\")
+                current_slash = file_path.rfind("\\")
                 if last_slash != current_slash:
                     print()
                 last_slash = current_slash
                 
-                treshold = lineas > 75
-                print(f"{ruta_archivo[len(directorio)+1:]}: {lineas} líneas", "***" if  treshold else "")
-    print(f"\nTotal de líneas de código: {total_lineas}")
+                treshold = lines > 75
+                print(f"{file_path[len(dir_path)+1:]}: {lines} líneas", "***" if  treshold else "")
+                total_files += 1
+    print(f"\nTotal de líneas de código: {total_lines}")
+    print(f"Total de Archivos: {total_files}")
 
 if __name__ == "__main__":
-    directorio_actual = os.getcwd()
-    print(f"Explorando directorio: {directorio_actual}\n")
-    mostrar_arbol_directorio(directorio_actual)
+    current_dir = os.getcwd()
+    print(f"Explorando directorio: {current_dir}")
+    show_tree_dir(current_dir)

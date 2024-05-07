@@ -2,7 +2,7 @@ import pygame
 import pygame.draw
 
 from scenes.map.map_events import EventHandler
-from scenes.map.map_ui import MapUI
+from map_ui.map_ui import MapUI
 
 from maps.maps_manager import MapsManager
 from utils import scale_tuple
@@ -13,13 +13,14 @@ class MapView:
         
         self.box_selected = False
         
-        self.event_handler = EventHandler(self)
-        self.ui = MapUI(self)
         self.maps_manager = MapsManager(self)
-        self.scene_manager = scene_manager
-        
         self.original_map = self.maps_manager.get("Main")
         self.map = self.original_map
+        
+        self.event_handler = EventHandler(self)
+        self.ui = MapUI(self)
+        self.scene_manager = scene_manager
+        
         
         
     def setup(self, asset_manager):

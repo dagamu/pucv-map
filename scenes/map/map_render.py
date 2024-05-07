@@ -50,6 +50,6 @@ class MapRender:
             point = self.map.path[i]
             start_p = point
             end_p = self.map.path[i+1]
-            pygame.draw.line( map_render,  "blue", start_p, end_p, width=3 )
+            pygame.draw.line( map_render,  (0,0,255,100), start_p, end_p, width=5 )
             
         return map_render

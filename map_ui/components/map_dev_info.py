@@ -4,6 +4,7 @@ class MapDevInfo:
     def __init__(self, scene):
         self.scene = scene
         self.start_pos = pygame.Vector2(50,100)
+        self.show = False
         self.info_values = {
             "map_pos": { "get_value": self.scene.map.get_pos },
             "zoom": { "get_value": self.scene.map.get_zoom },
@@ -25,5 +26,8 @@ class MapDevInfo:
         text_to_render = str(f"{name}: {current_value}")
         value["render"] = self.font.render( text_to_render, True, "white" )
         value["text"] = str(current_value)[:]
+        
+    def toggle(self):
+        self.show = not self.show
         
     

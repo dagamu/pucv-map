@@ -61,7 +61,6 @@ class MapsManager:
         if len(self.open_set.values()) > 0:
             current = min(self.open_set.values(), key=lambda d: d['f'])
             if current["id"] == str(self.end_node["link"][0]):
-                print("Done")
                 temp = current
                 while temp["previous"]:
                     self.path.append(temp["pos"])
@@ -70,9 +69,6 @@ class MapsManager:
                 self.scene.map.set_path( self.path )
                 self.finding_path = False
                 
-            print([ (x["id"], round(x["f"]), x in self.closed_set.values()) for x in self.open_set.values()])
-            print(current["id"], current["link"])
-            print()
             del self.open_set[ current["id"] ]
             self.closed_set[current["id"]] = current
             
@@ -92,11 +88,8 @@ class MapsManager:
                     neighbor["previous"] = current
                     neighbor["h"] = self.heuristic( neighbor, self.end_node )
                     neighbor["f"] = neighbor["g"] + neighbor["h"]
-                    
-                    
                 
         else:
-            print("No solution")
             self.finding_path = False
         
     def get(self, name):

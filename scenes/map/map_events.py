@@ -9,21 +9,23 @@ class EventHandler:
         self.prev_mouse_pos = pygame.Vector2()
         
     def handle_event(self, e):
+        self.scene.ui.event_manager.handle_event(e)
         if e.type == pygame.MOUSEBUTTONUP and e.button == 1:
             self.handle_click()
         elif e.type == pygame.MOUSEWHEEL:
-            self.scene.map.change_zoom( e.y )
-            self.scene.map.move( pygame.Vector2(e.x*-3,0) )
+            self.handle_wheel(e)
         elif e.type == pygame.KEYUP:
             self.handle_key_up(e)
+            
+    def handle_wheel(self, e):
+        self.scene.map.change_zoom( e.y )
+        self.scene.map.move( pygame.Vector2(e.x*-3,0) )
             
     def handle_key_up(self, e):
         if self.scene.ui.search_bar.focus:
             self.scene.ui.search_bar.handle_key( e )
-            return
-        if e.unicode == "i":
-            self.scene.ui.toggle_dev_info()
-            
+        elif e.unicode == "i":
+            self.scene.ui.dev_info.toggle()
         
     def handle_click(self):
         pos = pygame.Vector2( pygame.mouse.get_pos() )
@@ -58,11 +60,7 @@ class EventHandler:
                 self.scene.ui.building_infobox.pos = pygame.Vector2(0, 600)
                 self.scene.ui.building_infobox.render()
         
-        chat_btn_pos = pygame.Vector2( self.scene.ui.chat_btn[0][1] )
-        if pos.distance_to( chat_btn_pos ) < self.scene.ui.chat_btn[0][2]:
-            self.scene.scene_manager.next_scene()
-            
-        self.scene.ui.handle_click( pos )
+        self.scene.ui.event_manager.handle_click( pos )
             
     def move_keys(self, keys ):
         x_change = int( keys[pygame.K_LEFT] ) - int( keys[pygame.K_RIGHT] )
