@@ -4,9 +4,9 @@ class EventHandler:
     def __init__(self, scene):
         self.scene = scene
         
-    def handle_event(self, e):
+    def handle_event(self, e, mouse_offset=pygame.Vector2(0,0)):
         if e.type == pygame.MOUSEBUTTONUP:
-            self.handle_click()
+            self.handle_click(mouse_offset)
         if e.type == pygame.KEYDOWN:
             self.handle_key_down(e)
                     
@@ -21,8 +21,8 @@ class EventHandler:
                     self.scene.text_bar_msg["text"] = ""
                 self.scene.text_bar_msg["text"] += e.unicode
                 
-    def handle_click(self):
-        pos = pygame.mouse.get_pos()
+    def handle_click(self, mouse_offset):
+        pos = pygame.mouse.get_pos() - mouse_offset
         w, h = self.scene.window_size
         
         if 50 <= pos[0] <= 90 and 50 <= pos[1] <= 90:

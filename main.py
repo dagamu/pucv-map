@@ -3,6 +3,7 @@ import argparse
 
 from assets import AssetManager
 from scenes.scene_manager import SceneManager
+from animator.animator import Animator
 
 WIDTH = 360
 HEIGHT = 698
@@ -18,7 +19,8 @@ class App:
         
         self.running = False
         self.asset_manager = AssetManager()
-        self.scene_manager = SceneManager(self.asset_manager, args.scene_number)
+        self.animator = Animator()
+        self.scene_manager = SceneManager( self.animator, self.asset_manager, args.scene_number)
     
     def run(self):
         pygame.init()
@@ -38,6 +40,7 @@ class App:
         self.event_check()
         self.screen.fill("white")
         
+        self.animator.loop()
         self.scene_manager.current_scene.loop( self.screen )
         
         mockup_img = self.asset_manager.get("mockup")

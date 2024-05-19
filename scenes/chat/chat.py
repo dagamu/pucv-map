@@ -24,10 +24,11 @@ class ChatScene:
         
         self.messages = [{ "user": "bot", "text": "Hola! ¿En qué te puedo ayudar?" }]
         
-    def setup(self, asset_manager):
+    def setup(self, asset_manager, animator):
         self.asset_manager = asset_manager
+        self.animator = animator
         
-        self.window_size = pygame.display.get_surface().get_size()
+        self.window_size = pygame.Vector2(360,698)
         self.surface = pygame.Surface( self.window_size )
         self.s_pos = pygame.Vector2( self.window_size[0], 0)
         

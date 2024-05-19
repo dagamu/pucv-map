@@ -4,9 +4,10 @@ from scenes.map.map_scene import MapView
 from scenes.chat.chat import ChatScene
 
 class SceneManager:
-    def __init__(self, asset_manager, scene_number):
+    def __init__(self, animator, asset_manager, scene_number):
         self.scenes = [ PhoneMenu(self), AppMenu(self), MapView(self), ChatScene(self) ]
         self.asset_manager = asset_manager
+        self.animator = animator
         
         self.first_scene = scene_number
         self.current_index = self.first_scene   
@@ -14,7 +15,7 @@ class SceneManager:
     
     def set_scenes(self):
         for s in self.scenes:
-            s.setup(self.asset_manager)
+            s.setup(self.asset_manager, self.animator)
     
     def next_scene(self):
         self.current_index += 1

@@ -23,14 +23,15 @@ class MapView:
         
         
         
-    def setup(self, asset_manager):
+    def setup(self, asset_manager, animator):
         self.asset_manager = asset_manager
+        self.animator = animator
         self.set_viewport()
         self.maps_manager.load()
         self.ui.load()
         
     def set_viewport(self):
-        self.window_size = pygame.Vector2( pygame.display.get_surface().get_size() )
+        self.window_size = pygame.Vector2(360,698)
         self.window_center = self.window_size * 0.5
         self.target_point = self.window_center - ( self.map.pos )
         

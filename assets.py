@@ -6,7 +6,7 @@ class AssetManager:
         
         self.buildings = [ "IBC", "FIN", "GEO", "ICT", "ING-AU", "RA", "EIB"]
         self.images_paths = {
-            "mockup":       [ "phone-mockup.png" ] ,
+            "mockup":       [ "phone-mockup-transparent.png" ] ,
             "phone_bg":     [ "phone-bg.png" ],
             "app_loading":  [ "app-loading.png" ],
             "app_menu":     [ "app-menu.png" ],
@@ -14,7 +14,9 @@ class AssetManager:
             "mask-black":   [ "mask.png" ],
             "proto_map":    [ "proto_map.jpeg" ],
             "ING_AU_map":   [ "ING_AU_proto.png" ],
-            "pet":          [ "pet", "normal_mascota.png"]
+            "pet":          [ "pet", "normal_mascota.png"],
+            "pre1":          [ "presentacion", "pre-1.png"],
+            "pre2":          [ "presentacion", "pre-2.png"]
         }
         
         for b in self.buildings:

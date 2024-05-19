@@ -8,10 +8,10 @@ class EventHandler:
         self.dragging = False
         self.prev_mouse_pos = pygame.Vector2()
         
-    def handle_event(self, e):
+    def handle_event(self, e, mouse_offset=pygame.Vector2(0,0) ):
         self.scene.ui.event_manager.handle_event(e)
         if e.type == pygame.MOUSEBUTTONUP and e.button == 1:
-            self.handle_click()
+            self.handle_click(mouse_offset)
         elif e.type == pygame.MOUSEWHEEL:
             self.handle_wheel(e)
         elif e.type == pygame.KEYUP:
@@ -27,8 +27,8 @@ class EventHandler:
         elif e.unicode == "i":
             self.scene.ui.dev_info.toggle()
         
-    def handle_click(self):
-        pos = pygame.Vector2( pygame.mouse.get_pos() )
+    def handle_click(self, mouse_offset):
+        pos = pygame.Vector2( pygame.mouse.get_pos() ) - mouse_offset
         
         def colllide_box( box, position ):
             if not "collider" in box.keys():
