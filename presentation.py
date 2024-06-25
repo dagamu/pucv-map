@@ -6,8 +6,8 @@ from assets import AssetManager
 from scenes.scene_manager import SceneManager
 from animator.animator import Animator
 
-WIDTH = 1408
-HEIGHT = 792
+WIDTH = 1440
+HEIGHT = 900
 
 bg_video = Video("white_bg.mp4")
 bg_video.seek(15)
@@ -35,7 +35,7 @@ class App:
     def run(self):
         pygame.init()
         self.clock = pygame.time.Clock()
-        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        self.screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN ) #
         pygame.display.set_caption('Mapa PUCV')
         
         self.app_surf = pygame.Surface((360,698))
@@ -64,7 +64,7 @@ class App:
         if self.state == 0:
             img = self.asset_manager.get("pre1").convert_alpha()
             img.fill((255, 255, 255, self.opacity), special_flags=pygame.BLEND_RGBA_MULT)
-            self.screen.blit( img, (0,0) )
+            self.screen.blit( img, (30,40) )
             
             if self.op_vel < 0:
                 self.op_vel *= -1
@@ -84,8 +84,8 @@ class App:
             mockup_img.fill((255, 255, 255, self.opacity), special_flags=pygame.BLEND_RGBA_MULT)
             mask_surf.fill((255, 255, 255, self.opacity), special_flags=pygame.BLEND_RGBA_MULT)
             
-            self.screen.blit( mockup_img, (524, 47))
-            self.screen.blit( mask_surf, (524, 47))
+            self.screen.blit( mockup_img, (540, 70))
+            self.screen.blit( mask_surf, (540, 70))
             
             if self.op_vel < 0:
                 self.op_vel *= -1
@@ -94,7 +94,7 @@ class App:
             img = self.asset_manager.get("pre2").convert_alpha()
             img.fill((255, 255, 255, self.opacity), special_flags=pygame.BLEND_RGBA_MULT)
             
-            self.screen.blit( img, (0,0) )
+            self.screen.blit( img, (30,40) )
             
             if self.op_vel < 0:
                 self.op_vel *= -1

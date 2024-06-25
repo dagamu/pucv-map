@@ -1,4 +1,5 @@
 import pygame
+import os
 import argparse
 
 from assets import AssetManager
@@ -7,6 +8,9 @@ from animator.animator import Animator
 
 WIDTH = 360
 HEIGHT = 698
+
+WINDOW_SIZE = (1176, 0)
+os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % WINDOW_SIZE
 
 class App:
     def __init__(self, WIDTH, HEIGHT):
